@@ -1,0 +1,22 @@
+{
+  "title": "Site Beginnings",
+  "date": "2026-07-26",
+  "description": "The images that shaped the first version of this personal website.",
+  "published": true,
+  "photos": [
+    {
+      "src": "/gallery/background.jpg",
+      "alt": "A mountain landscape beneath a blue sky",
+      "caption": "The current website background.",
+      "width": 1448,
+      "height": 1086
+    },
+    {
+      "src": "/gallery/logo.png",
+      "alt": "Portrait used as the Hsi-Ning Wang website logo",
+      "caption": "The first site portrait.",
+      "width": 959,
+      "height": 959
+    }
+  ]
+}

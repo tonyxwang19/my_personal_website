@@ -1,6 +1,11 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import type { GalleryGroupSummary } from "@/lib/gallery";
+import type { ProjectSummary } from "@/lib/projects";
+import type { WritingSummary } from "@/lib/writings";
 
 const sections = [
   "home",
@@ -15,7 +20,15 @@ function isSection(value: string): value is Section {
   return sections.includes(value as Section);
 }
 
-export function PersonalWebsite() {
+export function PersonalWebsite({
+  writings,
+  galleryGroups,
+  projects,
+}: {
+  writings: WritingSummary[];
+  galleryGroups: GalleryGroupSummary[];
+  projects: ProjectSummary[];
+}) {
   const [activeSection, setActiveSection] = useState<Section>("home");
 
   useEffect(() => {
@@ -71,30 +84,99 @@ export function PersonalWebsite() {
             {activeSection === "projects" && (
               <section id="projects" className="content-region">
                 <h2>Projects</h2>
-                <p>
-                  Selected projects will live here. I&apos;m currently preparing
-                  the first collection.
-                </p>
+                {projects.length > 0 ? (
+                  <ol className="gallery-group-list">
+                    {projects.map((project) => (
+                      <li key={project.slug}>
+                        <Link href={`/projects/${project.slug}`}>
+                          <div className="gallery-cover">
+                            <Image
+                              src={project.cover}
+                              alt={project.coverAlt}
+                              fill
+                              sizes="(max-width: 640px) 100vw, 50vw"
+                            />
+                          </div>
+                          <div className="gallery-card-copy">
+                            <span>
+                              <strong>{project.title}</strong>
+                              <small>{project.summary}</small>
+                            </span>
+                            <span className="gallery-card-meta">
+                              <time dateTime={project.date}>
+                                {project.date}
+                              </time>
+                              {project.tags.length > 0 && (
+                                <span>{project.tags.join(" · ")}</span>
+                              )}
+                            </span>
+                          </div>
+                        </Link>
+                      </li>
+                    ))}
+                  </ol>
+                ) : (
+                  <p>No published projects yet.</p>
+                )}
               </section>
             )}
 
             {activeSection === "writings" && (
               <section id="writings" className="content-region">
                 <h2>Writings</h2>
-                <p>
-                  Notes, essays, and things worth remembering will be published
-                  here.
-                </p>
+                {writings.length > 0 ? (
+                  <ol className="writing-list">
+                    {writings.map((writing) => (
+                      <li key={writing.slug}>
+                        <Link href={`/writings/${writing.slug}`}>
+                          <span>
+                            <strong>{writing.title}</strong>
+                            <small>{writing.summary}</small>
+                          </span>
+                          <time dateTime={writing.date}>{writing.date}</time>
+                        </Link>
+                      </li>
+                    ))}
+                  </ol>
+                ) : (
+                  <p>No published writings yet.</p>
+                )}
               </section>
             )}
 
             {activeSection === "gallery" && (
               <section id="gallery" className="content-region">
                 <h2>Gallery</h2>
-                <p>
-                  A visual archive is on the way. This space will collect
-                  photographs, sketches, and other fragments.
-                </p>
+                {galleryGroups.length > 0 ? (
+                  <ol className="gallery-group-list">
+                    {galleryGroups.map((group) => (
+                      <li key={group.slug}>
+                        <Link href={`/gallery/${group.slug}`}>
+                          <div className="gallery-cover">
+                            <Image
+                              src={group.cover.src}
+                              alt={group.cover.alt}
+                              fill
+                              sizes="(max-width: 640px) 100vw, 50vw"
+                            />
+                          </div>
+                          <div className="gallery-card-copy">
+                            <span>
+                              <strong>{group.title}</strong>
+                              <small>{group.description}</small>
+                            </span>
+                            <span className="gallery-card-meta">
+                              <time dateTime={group.date}>{group.date}</time>
+                              <span>{group.photoCount} photos</span>
+                            </span>
+                          </div>
+                        </Link>
+                      </li>
+                    ))}
+                  </ol>
+                ) : (
+                  <p>No published photo sets yet.</p>
+                )}
               </section>
             )}
 

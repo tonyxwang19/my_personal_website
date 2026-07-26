@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.hsiningwang.com"),
   title: "Hsi-Ning Wang",
   description:
     "The personal website of Hsi-Ning Wang — a home for work, notes, and ideas.",
